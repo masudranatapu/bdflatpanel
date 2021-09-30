@@ -1,0 +1,43 @@
+.navbar-semi-dark{
+    background: #4A8BC2;
+}
+
+.navbar-semi-dark .navbar-nav .nav-link{
+    color: white;
+}
+
+.navbar-semi-dark .navbar-header{
+    background: #427DAE !important;
+}
+
+[data-menu="vertical-menu-modern"] .navbar-semi-dark .navbar-header .navbar-nav .nav-link{
+    color: white !important;
+}
+.main-menu.menu-dark .navigation > li.active > a{
+    background: #4A8BC2;
+}
+
+.main-menu.menu-dark .navigation {
+    background: #404040;
+}
+
+.main-menu.menu-dark .navigation > li.open > a {
+    border-left: 4px solid #4a8bc2;
+}
+
+.main-menu.menu-dark .navigation > li .active > a {
+    background: rgb(74 139 194);
+}
+.main-menu.menu-dark .navigation > li.menu-collapsed-open > a {
+    border-left: 4px solid #4a8bc2;
+}
+
+.main-menu.menu-dark .navigation > li ul li > a:hover{
+    background: #656262;
+}
+.main-menu.menu-dark .navigation > li:hover{
+    background: #4a8bc2;
+}
+.main-menu.menu-dark{
+    background: #404040;
+}

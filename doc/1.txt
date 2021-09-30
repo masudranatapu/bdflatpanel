@@ -1,0 +1,186 @@
+INV_STOCK ORDER_STATUS
+
+00/null - not ordered
+10 - Ordered
+<!-- 20 - Expired(After Booking time)
+30 - Extended
+40 - Extended Expired(After Extention Period => booking cancel & product free)
+50 - Confirmed -->
+60 - Payment Made
+70 - Ready to Dispatch
+80 - Dispatched
+90 - Fully Dispatched
+100 - Customer Acknowladged
+110 - Customer Returned
+120 - Product At Dispatch
+130 - Product At Warehouse
+140 - Payment Reverted
+150 - Product Status to 10
+
+ORDER (DISPATCH_STATUS)
+
+00/null - Not dispatchable
+10 - Partially Dispatched
+20 - Partially Dispatchable
+30 - All Remaining Dispatchable
+40 - Fully Dispatched
+
+
+8720092157421
+
+<!-- 50 - Confirmed
+60 - Payment Made
+69 - Partially dispatchable(ORDER TABLE) -->
+71 -
+80 - Dispatched
+90 - Fully Dispatched
+100 - Customer Acknowladged
+110 - Customer Returned
+120 - Product At Dispatch
+130 - Product At Warehouse
+140 - Payment Reverted
+150 - Product Status to 10
+
+
+INV_STOCK (SLS_BOOKING) BOOKING_STATUS
+
+00/null - not booked
+10 - Booked
+20 - Expired(After Booking time)
+30 - Extended
+40 - Extended Expired(After Extention Period => booking cancel & product free)
+50 - Confirmed
+60 - Payment Made/Reconfirmed
+70 - Payment Verified
+80 - Ordered
+90 - Cancelled
+100 - Booking Life Cycle Complete
+
+SELECT * FROM INV_STOCK WHERE F_INV_WAREHOUSE_NO = 2 AND PRODUCT_STATUS < 60;
+
+INV_STOCK (SC_BOX) PRODUCT_STATUS
+00/null - Product Found Faulty
+10 - Arrived At Source Warehouse
+20 - Boxed At Source Warehouse
+30 - Booked For Shipment
+40 - Shipped
+45 - Box Arrived At Destination Country
+50 - Box Arrived At Destination Warehouse
+60 - Unboxed At Destination Warehouse
+65 - Product In Dispatch Area
+70 - Dispatched
+80 - Delivered
+90 - Returned At Destination Warehouse eq 50
+100 - Product Life Cycle Complete
+420 - Product Lost & damaged
+
+SC_BOX BOX_STATUS
+
+00/null - Not Boxed
+10 - Box Packaging In Progress at Source
+20 - Box Packaging Complete at Source(Can shipping assign only)
+30 - Box Assigned to Shipment(Can not unbox after this)
+40 - Box Arrived At Destination Dock
+50 - Box Arrived At Destination Warehouse
+60 - Box Unpacked At Destination Warehouse(Can not unpack before arriving at destination)
+70 - Box Repacked At Destination Warehouse
+80 - Empty Box
+90 - Box Disposed
+100 - Box Life Cycle Complete
+
+SC_SHIPMENT SHIPMENT_STATUS
+
+00/null - Not Shipped
+10 - Shipment In Progress at Source
+20 - Shipment Complete Collected by Shipping Agent at Source
+30 - Shipment Cancelled
+40 - In Shipping Line(Departure Country)
+50 - In Shipping Line(Transit)
+60 - In Shipping Line(Arrival Country)
+70 - Shipping Arrived At Receieving Agent at Destination
+80 - Shipping Arrived At Destination Warehouse
+90 - Unboxing Finished
+100 - Shipment Complete
+
+
+===========================================
+BOX SHIPMENT LIFE CYCLE
+===========================================
+1. BOXING =>
+	1) Add box => Calls procedure ->
+					1) Update (INV_STOCK) PRODUCT_STATUS  to 20(Boxed)
+					2) Update (INV_STOCK) F_BOX_NO to SC_BOX(PK_NO)
+					3) Update SC_BOX BOX_STATUS to 10
+					4) Insert into SC_BOX_INV_STOCK.
+
+2. REBOXING => (Can rebox only when PRODUCT_STATUS is 20 meaning, product is boxed but not assigned to shipment)
+	1) Update box => Calls procedure ->
+					1) Delete SC_BOX, SC_BOX_INV_STOCK.
+					2) Update (INV_STOCK) PRODUCT_STATUS to null, F_BOX_NO to null
+					3) Add SC_BOX (step 1.)
+
+3. SHIPMENT CREATE (From admin Panel)
+
+4. Assign Boxs to Shipment => (check SC_BOX status is 10 and PRODUCT_STATUS 20)*******and PRODUCT_STATUS 20***avoid this rule
+	1) Insert into SC_SHIPMENT_BOX and update
+	2) Update INV_STOCK F_SHIPPMENT_NO, SHIPMENT_NAME
+	3) Update SC_BOX BOX_STATUS to 20
+	/*  step 5(a) ekhane hbe. */
+
+5. UPDATE SHIPMENT STATUS =>
+	a. Update shipment status from admin panel to "Collected by Shipping Agent at Source" (status 20) {Can not rebox after this}
+		1) Update SC_BOX BOX_STATUS to 30(Assigned to Shipment)
+		2) Update INV_STOCK PRODUCT_STATUS to 30(Booked For Shipment)
+
+	b. Cancel shipment
+		1) Update INV_STOCK PRODUCT_STATUS to 20(Boxed)
+		2) Update SC_BOX BOX_STATUS to 10
+		3) Update INV_STOCK F_SHIPPMENT_NO to NULL
+		4) Update INV_STOCK SHIPMENT_NAMEto NULL
+		5)Delete from SC_SHIPMENT_BOX.
+
+	c. In Shipping Line(Departure Country) (status 40) {Product Shipped}
+		1) Update INV_STOCK PRODUCT_STATUS to 40(Shipped)
+
+	d. Shipping Arrived At Destination Receiving Agent (status 70)
+		1) Update SC_BOX BOX_STATUS to 40(Box Arrived At Destination Dock)
+		2) Update INV_STOCK PRODUCT_STATUS to 45(rrived At Destination Country)**********new added
+
+6. SHIPMENT RECEIVED AT DESTINATION =>
+    1) Update SC_BOX BOX_STATUS to 50(Box Arrived At Destination Warehouse)
+    2) Update SC_BOX F_INV_WAREHOUSE_NO to destination details
+    3) Update SC_BOX F_BOX_USER_NO to receiver user
+	4) Update INV_STOCK PRODUCT_STATUS to 50(Arrived At Destination Warehouse)
+	5) Update SC_SHIPMENT SHIPMENT_STATUS to 80(Arrived At Destination Warehouse)
+
+7. UNBOXING =>(after this, products will show in check stock menu)
+	1) Update INV_STOCK PRODUCT_STATUS to 60(Unboxed At Destination Warehouse)
+	2) Update INV_STOCK F_INV_WAREHOUSE_NO, INV_WAREHOUSE_NAME to destination details
+	3) When all products are unboxed from the box ->
+						a) SC_BOX BOX_STATUS is updated to 60
+						{{-- b) F_INV_WAREHOUSE_NO is updated to receiver warehouse --}}
+						{{-- c) F_BOX_USER_NO is updated to receiver user --}}
+
+8. SHELVING
+
+
+DELETE FROM SC_BOX_INV_STOCK;
+DELETE FROM SC_BOX;
+DELETE FROM SC_SHIPMENT_BOX;
+UPDATE INV_STOCK SET
+UPDATE INV_STOCK SET
+F_BOX_NO = null,
+SHIPMENT_NAME = null,
+F_SHIPPMENT_NO = null,
+F_INV_ZONE_NO = null,
+INV_ZONE_BARCODE = null,
+PRODUCT_STATUS = null;
+
+
+1.Customer create (greeting email)
+2.Order create
+3.Order received
+4.Order dispatched
+5.Order default
+6.Order Cancel
+7.Order Return

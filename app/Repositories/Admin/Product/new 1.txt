@@ -1,0 +1,19 @@
+Route::group(['namespace' => 'Web', 'middleware' => ['auth']], function () {
+
+    //WEB ROUTE
+
+    Route::get('home/slider',['middleware' => 'acl:list_box', 'as' => 'web.home.slider', 'uses' => 'SliderController@getAllSlider']);
+
+    Route::get('home/slider/create',['middleware' => 'acl:list_box', 'as' => 'web.home.slider.create', 'uses' => 'SliderController@createSlider']);
+
+    Route::get('home/slider/edit/{id}',['middleware' => 'acl:list_box', 'as' => 'web.home.slider.edit', 'uses' => 'SliderController@getEdit']);
+
+    Route::post('home/slider/store',['middleware' => 'acl:list_box', 'as' => 'web.home.slider.store', 'uses' => 'SliderController@postStore']);
+
+    Route::post('home/slider/{id}/update',['middleware' => 'acl:edit_payment', 'as' => 'web.home.slider.update', 'uses' => 'SliderController@postUpdate']);
+
+    Route::get('home/slider/{id}/delete',['middleware' => 'acl:delete_payment', 'as' => 'web.home.slider.delete', 'uses' => 'SliderController@getDelete']);
+
+    Route::post('web/slider/featureStatus',['middleware' => 'acl:edit_payment', 'as' => 'web.home.slider.featureStatus', 'uses' => 'SliderController@changeFeatureStatus']);
+	
+	});

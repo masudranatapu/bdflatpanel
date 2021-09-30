@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'list_page_title'               => 'Agent',
+    'list_page_sub_title'           => 'Agent',
+    'breadcrumb_title'              => 'Dashboard',
+    'breadcrumb_sub_title'          => 'Agent',
+    'role_create_btn'               => 'New Agent',
+    'create_btn'                    => 'New Agent',
+    'new_page_title'                => 'Agent | New',
+    'edit_page_title'               => 'Agent | Update',
+    'edit_page_sub_title'           => 'Agent',
+    'edit_page_breadcrumb_title_1'  => 'Dashboard',
+    'edit_page_breadcrumb_title_2'  => 'Agent',
+    'edit_page_breadcrumb_title_active' => 'Update Agent',
+    'code'                          => 'Code',
+    'name'                          => 'Name',
+    'address'                       => 'Address',
+    'country'                       => 'Country',
+    'phone'                         => 'Phone',
+    'alt_phone'                     => 'Alternate No.',
+    'email'                         => 'Email',
+    'fb_id'                         => 'Facebook ID',
+    'ig_id'                         => 'Instagram ID',
+    'uk_id'                         => 'UKShop ID',
+    'password'                       => 'Password',
+    'has_loyality'                  => 'Has Loyality',
+];
