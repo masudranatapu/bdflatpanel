@@ -49,7 +49,11 @@ class AboutUs extends Model
 
             if(!empty($request->id)){
 
-                $about                 = About::findOrFail($request->id);
+                $about                 = About::find($request->id);
+                if($about == null){
+                    $about = new About();
+                }
+
                 $about->TITLE          = $request->title;
                 $about->SUB_TITLE      = $request->subtitle;
                 $about->DESCRIPTION    = $request->description;
