@@ -48,17 +48,6 @@
                     <div class="card-content">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-2 offset-10 text-right">
-                                            <a href="{{route('admin.transaction.create')}}"
-                                               class="text-warning font-weight-bold"><i class="fa fa-plus"></i> Add New</a>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="row">
                                 {!! Form::open(['route' => 'admin.transaction.list', 'method' => 'get']) !!}
                                 <div class="col-12">
                                     <div class="row form-group">
