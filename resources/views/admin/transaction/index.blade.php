@@ -113,7 +113,7 @@
                                             <th>Transaction Type</th>
                                             <th>Note</th>
                                             <th>Amount</th>
-                                            <th>Actions</th>
+{{--                                            <th>Actions</th>--}}
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -127,10 +127,10 @@
                                                     <td>{{ $transaction_type[$row->TRANSACTION_TYPE] ?? '' }}</td>
                                                     <td>{{ $row->PAYMENT_NOTE ?? '' }}</td>
                                                     <td>{{ number_format($row->AMOUNT, 2) }}</td>
-                                                    <td>
-                                                        <a href="#">Edit</a> |
-                                                        <a href="#">Delete</a>
-                                                    </td>
+{{--                                                    <td>--}}
+{{--                                                        <a href="#">Edit</a> |--}}
+{{--                                                        <a href="#">Delete</a>--}}
+{{--                                                    </td>--}}
                                                 </tr>
                                             @endforeach
                                         @endif
