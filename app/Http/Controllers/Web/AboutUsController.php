@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Web;
+
 use App\Models\Web\AboutUs;
 use Auth;
 use App\Models\Web\About;
@@ -11,20 +12,20 @@ use App\Http\Requests\Web\ArticleRequest;
 
 class AboutUsController extends Controller
 {
-
+    protected $resp;
     protected $about;
 
     public function __construct(AboutUs $about)
     {
-        $this->about     = $about;
+        $this->about = $about;
     }
 
-    public function getIndex(Request $request){
+    public function getIndex(Request $request)
+    {
         $this->resp = $this->about->getAbout($request);
         $data['about'] = $this->resp->data;
         return view('admin.web.about-us.index')->withData($data);
     }
-
 
     public function postStore(Request $request)
     {
@@ -34,19 +35,18 @@ class AboutUsController extends Controller
 
     public function postEditorImageUpload(Request $request)
     {
-        if (!is_null($request->file('image')))
-        {
-        $image = $request->file('image');
-        $extension = $image->getClientOriginalExtension();
-        $file_path = 'uploads/' . date("Y/m") . '/photos';
-        $base_name = preg_replace('/\..+$/', '', $image->getClientOriginalName());
-        $base_name = explode(' ', $base_name);
-        $base_name = implode('-', $base_name);
-        $img = Image::make($image->getRealPath());
-        $feature_image = $base_name . "-" . uniqid().'.webp';
-        Image::make($img)->save($file_path.'/'.$feature_image);
-        $image_name = $file_path .'/'. $feature_image;
-            return   url('/').'/'.$image_name;
+        if (!is_null($request->file('image'))) {
+            $image = $request->file('image');
+            $extension = $image->getClientOriginalExtension();
+            $file_path = 'uploads/' . date("Y/m") . '/photos';
+            $base_name = preg_replace('/\..+$/', '', $image->getClientOriginalName());
+            $base_name = explode(' ', $base_name);
+            $base_name = implode('-', $base_name);
+            $img = Image::make($image->getRealPath());
+            $feature_image = $base_name . "-" . uniqid() . '.webp';
+            Image::make($img)->save($file_path . '/' . $feature_image);
+            $image_name = $file_path . '/' . $feature_image;
+            return url('/') . '/' . $image_name;
         }
     }
 

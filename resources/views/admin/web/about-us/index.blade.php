@@ -5,8 +5,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/summernote.css')}}">
 @endpush('custom_css')
 @section('About Us','active')
-@section('title') About Us@endsection
-@section('page-name') About Us@endsection
+@section('title') About Us @endsection
+@section('page-name') About Us @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">About</a></li>
     <li class="breadcrumb-item active"> About</li>
