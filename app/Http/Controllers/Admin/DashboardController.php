@@ -5,35 +5,9 @@ namespace App\Http\Controllers\Admin;
 use DB;
 use Auth;
 use Carbon\Carbon;
-use App\Models\Box;
-use App\Models\City;
-use App\Models\Brand;
-use App\Models\Order;
-use App\Models\State;
-use App\Models\Stock;
-use App\Models\PoCode;
-use App\Models\Booking;
-use App\Models\Invoice;
-use App\Models\Product;
-use App\Models\Customer;
-use App\Models\Reseller;
-use App\Models\Shipment;
-use App\Models\NotifySms;
-use App\Models\Warehouse;
-use App\Models\AccBankTxn;
-use App\Models\ProductModel;
-use App\Models\WarehouseZone;
-use App\Models\BookingDetails;
-use App\Models\PaymentBankAcc;
-use App\Models\ProductVariant;
-use App\Models\CustomerAddress;
-use App\Models\DispatchDetails;
-use App\Models\PaymentCustomer;
-use App\Models\ShippingAddress;
-use App\Models\SmsNotification;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\BaseController;
-use App\Models\Agent;
+
 use Illuminate\Http\Request;
 
 class DashboardController extends BaseController
@@ -42,9 +16,14 @@ class DashboardController extends BaseController
     {
     }
 
-    public function getIndex() {
+    public function getIndex()
+    {
+        $data['total_property'] = DB::table('PRD_LISTINGS')->count();
+        $data['total_property_published'] =  DB::table('PRD_LISTINGS')->where('STATUS',10)->count();;
+        $data['total_owner'] = DB::table('WEB_USER')->whereIn('USER_TYPE',[2,3,4])->count();
+        $data['total_seeker'] = DB::table('WEB_USER')->where('USER_TYPE',1)->count();
 
-        return view('admin.dashboard.home');
+        return view('admin.dashboard.home', compact('data'));
     }
 
     public function homepage() {

@@ -18,7 +18,7 @@
                         <div class="card-body">
                             <div class="media d-flex">
                                 <div class="media-body text-left">
-                                    <h3 class="info">850</h3>
+                                    <h3 class="info">{{ $data['total_property'] ?? 0 }}</h3>
                                     <h6>Total Properties</h6>
                                 </div>
                                 <div>
@@ -38,7 +38,7 @@
                         <div class="card-body">
                             <div class="media d-flex">
                                 <div class="media-body text-left">
-                                    <h3 class="danger">99.89 %</h3>
+                                    <h3 class="danger">{{ $data['total_property_published'] ?? 0 }}</h3>
                                     <h6>Total Published Properties</h6>
                                 </div>
                                 <div>
@@ -59,7 +59,7 @@
                         <div class="card-body">
                             <div class="media d-flex">
                                 <div class="media-body text-left">
-                                    <h3 class="warning">$748</h3>
+                                    <h3 class="warning">{{ $data['total_owner'] ?? 0 }}</h3>
                                     <h6>Total Owner</h6>
                                 </div>
                                 <div>
@@ -67,8 +67,7 @@
                                 </div>
                             </div>
                             <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
-                                <div class="progress-bar bg-gradient-x-warning" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0"
-                                     aria-valuemax="100"></div>
+                                <div class="progress-bar bg-gradient-x-warning" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
                     </div>
@@ -80,7 +79,7 @@
                         <div class="card-body">
                             <div class="media d-flex">
                                 <div class="media-body text-left">
-                                    <h3 class="success">146</h3>
+                                    <h3 class="success">{{ $data['total_seeker'] ?? 0 }}</h3>
                                     <h6>Total Seeker</h6>
                                 </div>
                                 <div>
