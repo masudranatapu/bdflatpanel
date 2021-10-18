@@ -48,17 +48,6 @@
                     <div class="card-content">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-2 offset-10 text-right">
-                                            <a href="{{route('admin.transaction.create')}}"
-                                               class="text-warning font-weight-bold"><i class="fa fa-plus"></i> Add New</a>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="row">
                                 {!! Form::open(['route' => 'admin.transaction.list', 'method' => 'get']) !!}
                                 <div class="col-12">
                                     <div class="row form-group">
@@ -124,7 +113,7 @@
                                             <th>Transaction Type</th>
                                             <th>Note</th>
                                             <th>Amount</th>
-                                            <th>Actions</th>
+{{--                                            <th>Actions</th>--}}
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -138,10 +127,10 @@
                                                     <td>{{ $transaction_type[$row->TRANSACTION_TYPE] ?? '' }}</td>
                                                     <td>{{ $row->PAYMENT_NOTE ?? '' }}</td>
                                                     <td>{{ number_format($row->AMOUNT, 2) }}</td>
-                                                    <td>
-                                                        <a href="#">Edit</a> |
-                                                        <a href="#">Delete</a>
-                                                    </td>
+{{--                                                    <td>--}}
+{{--                                                        <a href="#">Edit</a> |--}}
+{{--                                                        <a href="#">Delete</a>--}}
+{{--                                                    </td>--}}
                                                 </tr>
                                             @endforeach
                                         @endif

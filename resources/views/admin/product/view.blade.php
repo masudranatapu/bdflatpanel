@@ -50,7 +50,6 @@
     $user_type          = Config::get('static_array.user_type') ?? [];
     $property_status    = Config::get('static_array.property_status') ?? [];
     $payment_status     = Config::get('static_array.payment_status') ?? [];
-
 ?>
 
 @section('content')
@@ -91,14 +90,14 @@
                                             class="font-weight-bold">Advertisement Type: </span>{{ ucwords($product->PROPERTY_FOR ?? '') }}
                                     </p>
                                     <p><span
-                                            class="font-weight-bold">Property Type: </span>{{ $property_types[$product->F_PROPERTY_TYPE_NO] }}
+                                            class="font-weight-bold">Property Type: </span>{{ $property_types[$product->F_PROPERTY_TYPE_NO] ?? '' }}
                                     </p>
-                                    <p><span class="font-weight-bold">City: </span>{{ $cities[$product->F_CITY_NO] }}
+                                    <p><span class="font-weight-bold">City: </span>{{ $cities[$product->F_CITY_NO] ?? '' }}
                                     </p>
-                                    <p><span class="font-weight-bold">Area: </span>{{ $area[$product->F_AREA_NO] }}</p>
+                                    <p><span class="font-weight-bold">Area: </span>{{ $area[$product->F_AREA_NO] ?? '' }}</p>
                                     <p><span class="font-weight-bold">Address: </span>{{ $product->ADDRESS ?? '' }}</p>
                                     <p><span
-                                            class="font-weight-bold">Condition: </span>{{ $property_conditions[$product->F_PROPERTY_CONDITION] }}
+                                            class="font-weight-bold">Condition: </span>{{ $property_conditions[$product->F_PROPERTY_CONDITION] ?? '' }}
                                     </p>
                                     <p><span class="font-weight-bold">Title: </span>{{ $product->TITLE }}</p>
                                 </div>
@@ -193,8 +192,8 @@
                                 </div>
 
                                 <div class="col-md-12">
-                                    <p><span class="font-weight-bold">Listing Type</span>: {{ $property_listing_types[$product->F_LISTING_TYPE]->NAME }}</p>
-                                    <p><span class="font-weight-bold">Publishing Status</span>: {{ $property_status[$product->STATUS] }}</p>
+                                    <p><span class="font-weight-bold">Listing Type</span>: {{ $property_listing_types[$product->F_LISTING_TYPE ?? 0][0]->NAME }}</p>
+                                    <p><span class="font-weight-bold">Publishing Status</span>: {{ $property_status[$product->STATUS] ?? '' }}</p>
                                     <p><span class="font-weight-bold">Payment Status</span>: {{ $product->PAYMENT_STATUS ? 'Paid' : 'Due' }}</p>
                                     <p><span class="font-weight-bold">Verified by BDF</span>: {{ $product->IS_VERIFIED ? 'Yes' : 'No' }}</p>
                                     <p><span class="font-weight-bold">Need Payment to View Contact</span>: {{ $product->CI_PAYMENT ? 'Yes' : 'No' }}</p>

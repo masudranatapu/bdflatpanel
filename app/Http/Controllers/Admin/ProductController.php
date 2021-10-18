@@ -203,7 +203,7 @@ class ProductController extends BaseController
         $data['property_additional_info'] = $this->property_additional_info->getAdditionalInfo($id);
         $data['listing_feature'] = $this->listing_feature->getListingFeature();
         $data['near_by'] = $this->near_by->getNearBy();
-        $data['property_listing_type'] = $this->property_listing_type->getPropertyListingType();
+        $data['property_listing_type'] = $this->property_listing_type->getPropertyListingType()->groupBy('PK_NO');
         $data['property_listing_images'] = $this->property_listing_images->getListingImages($id);
 
         return view('admin.product.view')->withProduct($this->resp->data)->withData($data);

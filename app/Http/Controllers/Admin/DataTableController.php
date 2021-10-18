@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Repositories\Admin\Datatable\DatatableInterface;
 
-class DatatableController extends BaseController
+class DataTableController extends BaseController
 {
     protected $datatable;
     protected $resp;

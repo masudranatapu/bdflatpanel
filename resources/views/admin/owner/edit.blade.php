@@ -18,6 +18,13 @@
     <link rel="stylesheet" type="text/css" href="{{asset('/assets/css/image_upload/image-uploader.min.css')}}">
     <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
+        .bootstrap-datetimepicker-widget {
+            background: #404040;
+            /*color: #f4f4f4;*/
+        }
+        .bootstrap-datetimepicker-widget .fa {
+            color: #f4f4f4;
+        }
         a.ui-state-default{background-color:red!important}
         #scrollable-dropdown-menu2 .tt-menu{max-height:260px;overflow-y:auto;width:100%;border:1px solid #333;border-radius:5px}.twitter-typeahead{display:block!important}.tt-hint{color:#999!important}
     </style>
@@ -94,7 +101,22 @@
         $('#logoFile').imageUploader();
 
         $('.time').datetimepicker({
-            format: 'hh:mm'
+            format: 'hh:mm',
+            useCurrent: false,
+            showTodayButton: true,
+            showClear: true,
+            toolbarPlacement: 'bottom',
+            sideBySide: true,
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-arrow-up",
+                down: "fa fa-arrow-down",
+                previous: "fa fa-chevron-left",
+                next: "fa fa-chevron-right",
+                today: "fa fa-clock",
+                clear: "fa fa-trash"
+            }
         });
     </script>
 @endpush
