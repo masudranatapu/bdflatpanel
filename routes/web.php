@@ -532,6 +532,13 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('property/features/{id}/edit', ['middleware' => 'acl:edit_property_features', 'as' => 'admin.property.features.edit', 'uses' => 'PropertyFeaturesController@getEdit']);
     Route::post('property/features/{id}/update', ['middleware' => 'acl:edit_property_features', 'as' => 'admin.property.features.update', 'uses' => 'PropertyFeaturesController@postUpdate']);
     Route::get('property/features/{id}/delete', ['middleware' => 'acl:delete_property_features', 'as' => 'admin.property.features.delete', 'uses' => 'PropertyFeaturesController@getDelete']);
+    // nearby area
+    Route::get('nearby/area', ['middleware' => 'acl:view_property_features', 'as' => 'admin.nearby.area', 'uses' => 'NearByController@getIndex']);
+    Route::get('nearby/area/create', ['middleware' => 'acl:add_property_features', 'as' => 'admin.nearby.area.create', 'uses' => 'NearByController@getCreate']);
+    Route::post('nearby/area/store', ['middleware' => 'acl:add_property_features', 'as' => 'admin.nearby.area.store', 'uses' => 'NearByController@postStore']);
+    Route::get('nearby/area/{id}/edit', ['middleware' => 'acl:edit_property_features', 'as' => 'admin.nearby.area.edit', 'uses' => 'NearByController@getEdit']);
+    Route::post('nearby/area/{id}/update', ['middleware' => 'acl:edit_property_features', 'as' => 'admin.nearby.area.update', 'uses' => 'NearByController@postUpdate']);
+    Route::get('nearby/area/{id}/delete', ['middleware' => 'acl:delete_property_features', 'as' => 'admin.property.features.delete', 'uses' => 'PropertyFeaturesController@getDelete']);
 
     // Property Floor
     Route::get('property/floor', ['middleware' => 'acl:view_property_floor', 'as' => 'admin.property.floor', 'uses' => 'PropertyFloorController@getIndex']);

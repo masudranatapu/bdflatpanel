@@ -48,6 +48,13 @@ class PropertyFeaturesAbstract implements PropertyFeaturesInterface
             $feature->ORDER_ID = $request->order_id;
             $feature->IS_ACTIVE = $request->status;
             $feature->URL_SLUG = $slug;
+            if ($request->hasFile('icon')) {
+                $image = $request->file('icon');
+                $image_name = uniqid() . '.' . $image->getClientOriginalExtension();
+                $image_path = 'uploads/listings/features/';
+                $image->move($image_path, $image_name);
+                $feature->ICON = $image_path . $image_name;
+            }
             $feature->save();
 
             $this->status = true;
@@ -72,6 +79,13 @@ class PropertyFeaturesAbstract implements PropertyFeaturesInterface
             $feature->TITLE = $request->title;
             $feature->ORDER_ID = $request->order_id;
             $feature->IS_ACTIVE = $request->status;
+            if ($request->hasFile('icon')) {
+                $image = $request->file('icon');
+                $image_name = uniqid() . '.' . $image->getClientOriginalExtension();
+                $image_path = 'uploads/listings/features/';
+                $image->move($image_path, $image_name);
+                $feature->ICON = $image_path . $image_name;
+            }
             $feature->save();
 
             $this->status = true;

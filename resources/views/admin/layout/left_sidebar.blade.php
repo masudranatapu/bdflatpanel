@@ -455,6 +455,7 @@
                 <li class="@yield('property_condition')"><a class="menu-item" href="{{route('admin.property.condition')}}"><i></i><span data-i18n="Basic">Condition</span></a>
                 </li>
                 <li class="@yield('features')"><a class="menu-item" href="{{route('admin.property.features')}}"><i></i><span data-i18n="Basic">Features</span></a></li>
+                <li class="@yield('nearBy')"><a class="menu-item" href="{{route('admin.nearby.area')}}"><i></i><span data-i18n="Basic">NearBy</span></a></li>
                 <li class="@yield('city_list')"><a class="menu-item" href="{{route('admin.city.list')}}"><i></i><span data-i18n="Basic">City or Division</span></a></li>
                 <li class="@yield('area_list')"><a class="menu-item" href="{{route('admin.area.list')}}"><i></i><span data-i18n="Basic">Area</span></a></li>
 

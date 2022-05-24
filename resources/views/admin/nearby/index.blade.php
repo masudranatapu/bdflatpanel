@@ -1,14 +1,14 @@
 @extends('admin.layout.master')
 
 @section('Product Management','open')
-@section('features','active')
+@section('nearBy','active')
 
-@section('title') Property Features @endsection
-@section('page-name') Property Features @endsection
+@section('title') NearBy Area @endsection
+@section('page-name') NearBy Area @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-    <li class="breadcrumb-item active">Property Features</li>
+    <li class="breadcrumb-item active">NearBy Area</li>
 @endsection
 
 @php
@@ -36,8 +36,8 @@
                             <div class="form-group">
                                 @if(hasAccessAbility('new_category', $roles))
                                     <a class="text-white btn btn-sm btn-primary"
-                                       href="{{ route('admin.property.features.create')}}" title="Create new features"><i
-                                            class="ft-plus text-white"></i> Create Property Features</a>
+                                       href="{{ route('admin.nearby.area.create')}}" title="Create new features"><i
+                                            class="ft-plus text-white"></i> Create NearBy Area</a>
                                 @endif
 
                             </div>
@@ -68,29 +68,27 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @if(isset($data['features']) && count($data['features']))
-                                            @foreach($data['features'] as $key => $features)
+                                            @foreach($nearby_area as $item)
                                                 <tr>
                                                     <td class="text-center"
-                                                        style="width: 50px;">{{ $key + 1 }}</td>
-                                                    <td class="" style="">{{ $features->TITLE }}</td>
-                                                    <td class="" style="">{{ $features->ORDER_ID }}</td>
-                                                    <td class="" style=""><img src="{{ asset($features->ICON) }}" alt="" width="50"></td>
-                                                    @if($features->IS_ACTIVE)
+                                                        style="width: 50px;">{{ $item->id + 1 }}</td>
+                                                    <td class="" style="">{{ $item->TITLE }}</td>
+                                                    <td class="" style="">{{ $item->ORDER_ID }}</td>
+                                                    <td class="" style=""><img src="{{ asset($item->ICON) }}" alt="" width="50"></td>
+                                                    @if($item->IS_ACTIVE)
                                                         <td class="text-success">Active</td>
                                                     @else
                                                         <td class="text-danger">Inactive</td>
                                                     @endif
                                                     <td class="text-center" style="width: 200px;">
                                                         @if(hasAccessAbility('edit_property_features', $roles))
-                                                            <a href="{{ route('admin.property.features.edit', [$features->PK_NO]) }}"
+                                                            <a href="{{ route('admin.nearby.area.edit', [$item->PK_NO]) }}"
                                                                title="EDIT" class="btn btn-xs btn-info  mb-1"><i
                                                                     class="la la-edit"></i></a>
                                                         @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
-                                        @endif
                                         </tbody>
                                     </table>
                                 </div>

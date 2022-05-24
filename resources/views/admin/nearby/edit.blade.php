@@ -1,14 +1,14 @@
 @extends('admin.layout.master')
 
 @section('Product Management','open')
-@section('features','active')
+@section('nearBy','active')
 
-@section('title') Property Features | Update @endsection
-@section('page-name') Property Features | Update @endsection
+@section('title') NearBy Area | Update @endsection
+@section('page-name') NearBy Area | Update @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-    <li class="breadcrumb-item active">Property Features</li>
+    <li class="breadcrumb-item active">NearBy Area</li>
 @endsection
 
 @php
@@ -49,13 +49,13 @@ $status = [
                         </div>
                         <div class="card-content collapse show">
                             <div class="card-body card-dashboard">
-                                {!! Form::open([ 'route' => ['admin.property.features.update', $data['feature']->PK_NO], 'method' => 'post', 'class' => 'form-horizontal', 'files' => true , 'novalidate']) !!}
+                                {!! Form::open([ 'route' => ['admin.nearby.area.update', $data->PK_NO], 'method' => 'post', 'class' => 'form-horizontal', 'files' => true , 'novalidate']) !!}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             {!! Form::label('title', 'Title *', ['class' => 'label-title']) !!}
                                             <div class="controls">
-                                                {!! Form::text('title', old('title', $data['feature']->TITLE), ['class' => 'form-control', 'data-validation-required-message' => 'This field is required', 'placeholder' => 'Property Features']) !!}
+                                                {!! Form::text('title', old('title', $data->TITLE), ['class' => 'form-control', 'data-validation-required-message' => 'This field is required', 'placeholder' => 'NearBy Area']) !!}
                                                 {!! $errors->first('title', '<label class="help-block text-danger">:message</label>') !!}
                                             </div>
                                         </div>
@@ -64,7 +64,7 @@ $status = [
                                         <div class="form-group">
                                             {!! Form::label('order_id', 'Order ID *', ['class' => 'label-title']) !!}
                                             <div class="controls">
-                                                {!! Form::text('order_id', old('order_id', $data['feature']->ORDER_ID), ['class' => 'form-control', 'data-validation-required-message' => 'This field is required', 'placeholder' => 'Order ID']) !!}
+                                                {!! Form::text('order_id', old('order_id', $data->ORDER_ID), ['class' => 'form-control', 'data-validation-required-message' => 'This field is required', 'placeholder' => 'Order ID']) !!}
                                                 {!! $errors->first('order_id', '<label class="help-block text-danger">:message</label>') !!}
                                             </div>
                                         </div>
@@ -73,7 +73,7 @@ $status = [
                                         <div class="form-group">
                                             {!! Form::label('icon', 'Icon *', ['class' => 'label-title']) !!}
                                             <div class="controls">
-                                                <img src="{{asset($data['feature']->ICON)}}" alt="{{$data['feature']->TITLE}}" width="50">
+                                                <img src="{{asset($data->ICON)}}" alt="{{$data->TITLE}}" width="50">
                                                 {!! Form::file('icon', old('icon'), ['class' => 'form-control']) !!}
                                                 {!! $errors->first('icon', '<label class="help-block text-danger">:message</label>') !!}
                                             </div>
@@ -83,7 +83,7 @@ $status = [
                                         <div class="form-group">
                                             {!! Form::label('status', 'Status *', ['class' => 'label-title']) !!}
                                             <div class="controls">
-                                                {!! Form::select('status', $status ?? [], old('status', $data['feature']->IS_ACTIVE), ['class' => 'form-control', 'data-validation-required-message' => 'This field is required', 'placeholder' => 'Select Status']) !!}
+                                                {!! Form::select('status', $status ?? [], old('status', $data->IS_ACTIVE), ['class' => 'form-control', 'data-validation-required-message' => 'This field is required', 'placeholder' => 'Select Status']) !!}
                                                 {!! $errors->first('status', '<label class="help-block text-danger">:message</label>') !!}
                                             </div>
                                         </div>

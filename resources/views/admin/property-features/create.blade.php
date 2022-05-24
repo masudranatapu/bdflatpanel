@@ -71,6 +71,15 @@ $status = [
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            {!! Form::label('icon', 'Icon *', ['class' => 'label-title']) !!}
+                                            <div class="controls">
+                                                {!! Form::file('icon', old('icon'), ['class' => 'form-control', 'data-validation-required-message' => 'This field is required']) !!}
+                                                {!! $errors->first('icon', '<label class="help-block text-danger">:message</label>') !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             {!! Form::label('status', 'Status *', ['class' => 'label-title']) !!}
                                             <div class="controls">
                                                 {!! Form::select('status', $status ?? [], old('status'), ['class' => 'form-control', 'data-validation-required-message' => 'This field is required', 'placeholder' => 'Select Status']) !!}
