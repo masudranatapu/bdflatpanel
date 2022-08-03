@@ -194,6 +194,7 @@
                         data: function (d) {
                             d._token = "{{ csrf_token() }}";
                             d.user_type = {{ request()->query('user_type') ?? 'null' }};
+                            d.user_id = {{ request()->query('user_id') ?? 'null' }};
                             d.property_for = {!! request()->query('property_for') ? '"' . request()->query('property_for') . '"' : 'null' !!};
                             d.listing_type = {{ request()->query('listing_type') ?? 'null' }};
                             d.property_status = {{ request()->query('property_status') ?? 'null' }};
@@ -237,7 +238,7 @@
                             data: 'PROPERTY_FOR',
                             name: 'PROPERTY_FOR',
                             searchable: true
-                        },                        
+                        },
                         {
                             data: 'LISTING_TYPE',
                             name: 'LISTING_TYPE',
@@ -254,7 +255,7 @@
                             data: 'AREA_NAME',
                             name: 'AREA_NAME',
                             searchable: true
-                        },                       
+                        },
                         {
                             data: 'TITLE',
                             name: 'TITLE',

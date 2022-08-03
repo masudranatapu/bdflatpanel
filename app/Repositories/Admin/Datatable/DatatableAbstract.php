@@ -141,11 +141,39 @@ class DatatableAbstract implements DatatableInterface
                 }
                 return $user_type;
             })
+            ->addColumn('total_list', function ($dataSet) {
+                $total_list = '';
+                $total_list = '<a href="' . route("admin.product.list", ['user_id' => $dataSet->PK_NO]) . '">'.$dataSet->TOTAL_LISTING.'</a>';
+                return $total_list;
+            })
+            ->addColumn('mobile', function ($dataSet) {
+                $mobile = '';
+                if($dataSet->COUNTRY_CODE == 'bd' && $dataSet->IS_VERIFIED == 1){
+                    $mobile = $dataSet->MOBILE_NO.' <span class="text-success" title="Otp verified"><i class="fa fa-check" aria-hidden="true"></i></span>';
+                }elseif($dataSet->COUNTRY_CODE == 'bd' && $dataSet->IS_VERIFIED == 0){
+                    $mobile = $dataSet->MOBILE_NO.' <span class="text-danger" title="Otp not verified"><i class="fa fa-check" aria-hidden="true"></i></span>';
+                }else{
+                    $mobile = $dataSet->MOBILE_NO;
+                }
+                return $mobile;
+            })
+            ->addColumn('email', function ($dataSet) {
+                $email = '';
+                if($dataSet->COUNTRY_CODE != 'bd' && $dataSet->IS_VERIFIED == 1){
+                    $email = $dataSet->EMAIL.' <span class="text-success" title="Otp verified"><i class="fa fa-check" aria-hidden="true"></i></span>';
+                }elseif($dataSet->COUNTRY_CODE != 'bd' && $dataSet->IS_VERIFIED == 0){
+                    $email = $dataSet->EMAIL.' <span class="text-danger" title="Otp not verified"><i class="fa fa-check" aria-hidden="true"></i></span>';
+                }else{
+                    $email = $dataSet->EMAIL;
+                }
+                return $email;
+            })
+
             ->addColumn('action', function ($dataSet) {
                 $roles = userRolePermissionArray();
                 $edit = $cp = $view = $payment = '';
                 if (hasAccessAbility('view_owner', $roles)) {
-                    $view = ' <a href="' . route("admin.owner.view", ['id' => $dataSet->PK_NO]) . '" class="btn btn-xs btn-info mb-05 mr-05" title="View">View</a>';
+                    $view = ' <a href="' . route("admin.owner.view", ['id' => $dataSet->PK_NO]) . '" class="btn btn-xs btn-info mb-05 mr-05" title="View">View</span>';
                 }
                 if (hasAccessAbility('edit_owner', $roles)) {
                     $edit = ' <a href="' . route("admin.owner.edit", ['id' => $dataSet->PK_NO]) . '" class="btn btn-xs btn-success mb-05 mr-05" title="Edit">Edit</a>';
@@ -158,7 +186,7 @@ class DatatableAbstract implements DatatableInterface
                 }
                 return $view . $edit . $payment . $cp;
             })
-            ->rawColumns(['action', 'status'])
+            ->rawColumns(['action', 'status','total_list', 'mobile','email'])
             ->make(true);
     }
 
@@ -181,14 +209,19 @@ class DatatableAbstract implements DatatableInterface
             })
             ->addColumn('action', function ($dataSet) {
                 $roles = userRolePermissionArray();
-                $edit = $payment = '';
+                $edit = $payment = $areas = '';
                 if (hasAccessAbility('edit_agents', $roles)) {
                     $edit = ' <a href="' . route("admin.agents.edit", ['id' => $dataSet->PK_NO]) . '" class="btn btn-xs btn-success mb-05 mr-05" title="Edit">Edit</a>';
                 }
                 if (hasAccessAbility('view_agent_earnings', $roles)) {
                     $payment = ' <a href="' . route("admin.agent_earnings", ['id' => $dataSet->PK_NO]) . '" class="btn btn-xs btn-success mb-05 mr-05" title="View Earnings">Earnings</a>';
                 }
-                return $edit . $payment;
+
+                if (hasAccessAbility('view_agent_earnings', $roles)) {
+                    $areas = ' <a href="' . route("admin.agent.area", ['id' => $dataSet->PK_NO]) . '" class="btn btn-xs btn-success mb-05 mr-05" title="View Earnings">Areas</a>';
+                }
+
+                return $edit . $payment . $areas;
             })
             ->rawColumns(['action', 'status'])
             ->make(true);
@@ -200,6 +233,9 @@ class DatatableAbstract implements DatatableInterface
             ->orderBy('PK_NO', 'DESC');
         if ($request->user_type != '' ) {
             $dataSet->where('p.USER_TYPE', $request->user_type);
+        }
+        if ($request->user_id != '' ) {
+            $dataSet->where('p.F_USER_NO', $request->user_id);
         }
         if ($request->property_for != '') {
             $dataSet->where('p.PROPERTY_FOR', $request->property_for);

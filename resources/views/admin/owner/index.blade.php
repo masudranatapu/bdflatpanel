@@ -180,12 +180,12 @@
                             searchable: true,
                         },
                         {
-                            data: 'MOBILE_NO',
+                            data: 'mobile',
                             name: 'MOBILE_NO',
                             searchable: true,
                         },
                         {
-                            data: 'EMAIL',
+                            data: 'email',
                             name: 'EMAIL',
                             searchable: true,
                         },
@@ -209,8 +209,8 @@
                         },
 
                         {
-                            data: 'TOTAL_LISTING',
-                            name: 'TOTAL_LISTING',
+                            data: 'total_list',
+                            name: 'total_list',
                             className: 'text-center',
                             searchable: true
                         },

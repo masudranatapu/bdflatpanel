@@ -70,6 +70,61 @@
             </div>
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            {!! Form::label('listing_limit', 'Listing Limit *', ['class' => 'label-title'], false) !!}
+            <div class="controls">
+                {!! Form::number('listing_limit', old('listing_limit', $owner->LISTING_LIMIT), ['class' => 'form-control', 'placeholder' => 'Listing Limit', 'tabIndex' => ++$tabIndex, 'data-validation-required-message' => 'This field is required']) !!}
+                {!! $errors->first('listing_limit', '<label class="help-block text-danger">:message</label>') !!}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            {!! Form::label('feature', 'Is Feature *', ['class' => 'label-title'], false) !!}
+            <div class="controls">
+                {!! Form::select('feature', [1 => 'Feature', 0 => 'General'], old('feature', $owner->IS_FEATURE), ['class' => 'form-control', 'tabIndex' => ++$tabIndex, 'data-validation-required-message' => 'This field is required']) !!}
+                {!! $errors->first('feature', '<label class="help-block text-danger">:message</label>') !!}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            {!! Form::label('working_days', 'Working Days', ['class' => 'label-title'], false) !!}
+            <div class="controls">
+                {!! Form::select('working_days[]', $days ?? [], old('working_days', json_decode($owner->info->WORKING_DAYS ?? '')), ['multiple', 'class' => 'form-control select2', 'id' => 'working_days', 'tabIndex' => ++$tabIndex]) !!}
+                {!! $errors->first('working_days', '<label class="help-block text-danger">:message</label>') !!}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            {!! Form::label('open_time', 'Open Time', ['class' => 'label-title'], false) !!}
+            <div class="controls">
+                {!! Form::text('open_time', old('open_time', $owner->info->SHOP_OPEN_TIME ?? ''), [ 'class' => 'form-control time', 'id' => 'open_time', 'tabIndex' => ++$tabIndex]) !!}
+                {!! $errors->first('open_time', '<label class="help-block text-danger">:message</label>') !!}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            {!! Form::label('close_time', 'Close Time', ['class' => 'label-title'], false) !!}
+            <div class="controls">
+                {!! Form::text('close_time', old('close_time', $owner->info->SHOP_CLOSE_TIME ?? ''), [ 'class' => 'form-control time', 'id' => 'close_time', 'tabIndex' => ++$tabIndex]) !!}
+                {!! $errors->first('close_time', '<label class="help-block text-danger">:message</label>') !!}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            {!! Form::label('auto_payment_renew', 'Auto Payment Renew *', ['class' => 'label-title'], false) !!}
+            <div class="controls">
+                {!! Form::select('auto_payment_renew', [1 => 'Active', 0 => 'Inactive'], old('auto_payment_renew', $owner->PAYMENT_AUTO_RENEW), ['class' => 'form-control', 'tabIndex' => ++$tabIndex, 'data-validation-required-message' => 'This field is required']) !!}
+                {!! $errors->first('auto_payment_renew', '<label class="help-block text-danger">:message</label>') !!}
+            </div>
+        </div>
+    </div>
+
     <div class="col-md-12 mb-1">
         <div class="form-group">
             {!! Form::label('about_company', 'About Company *', ['class' => 'label-title'], false) !!}
@@ -127,60 +182,8 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            {!! Form::label('listing_limit', 'Listing Limit *', ['class' => 'label-title'], false) !!}
-            <div class="controls">
-                {!! Form::number('listing_limit', old('listing_limit', $owner->LISTING_LIMIT), ['class' => 'form-control', 'placeholder' => 'Listing Limit', 'tabIndex' => ++$tabIndex, 'data-validation-required-message' => 'This field is required']) !!}
-                {!! $errors->first('listing_limit', '<label class="help-block text-danger">:message</label>') !!}
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            {!! Form::label('feature', 'Is Feature *', ['class' => 'label-title'], false) !!}
-            <div class="controls">
-                {!! Form::select('feature', [1 => 'Feature', 0 => 'General'], old('feature', $owner->IS_FEATURE), ['class' => 'form-control', 'tabIndex' => ++$tabIndex, 'data-validation-required-message' => 'This field is required']) !!}
-                {!! $errors->first('feature', '<label class="help-block text-danger">:message</label>') !!}
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            {!! Form::label('working_days', 'Working Days *', ['class' => 'label-title'], false) !!}
-            <div class="controls">
-                {!! Form::select('working_days[]', $days ?? [], old('working_days', json_decode($owner->info->WORKING_DAYS ?? '')), ['multiple', 'class' => 'form-control select2', 'id' => 'working_days', 'tabIndex' => ++$tabIndex, 'data-validation-required-message' => 'This field is required']) !!}
-                {!! $errors->first('working_days', '<label class="help-block text-danger">:message</label>') !!}
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            {!! Form::label('open_time', 'Open Time *', ['class' => 'label-title'], false) !!}
-            <div class="controls">
-                {!! Form::text('open_time', old('open_time', $owner->info->SHOP_OPEN_TIME ?? ''), [ 'class' => 'form-control time', 'id' => 'open_time', 'tabIndex' => ++$tabIndex, 'data-validation-required-message' => 'This field is required']) !!}
-                {!! $errors->first('open_time', '<label class="help-block text-danger">:message</label>') !!}
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            {!! Form::label('close_time', 'Close Time *', ['class' => 'label-title'], false) !!}
-            <div class="controls">
-                {!! Form::text('close_time', old('close_time', $owner->info->SHOP_CLOSE_TIME ?? ''), [ 'class' => 'form-control time', 'id' => 'close_time', 'tabIndex' => ++$tabIndex, 'data-validation-required-message' => 'This field is required']) !!}
-                {!! $errors->first('close_time', '<label class="help-block text-danger">:message</label>') !!}
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            {!! Form::label('auto_payment_renew', 'Auto Payment Renew *', ['class' => 'label-title'], false) !!}
-            <div class="controls">
-                {!! Form::select('auto_payment_renew', [1 => 'Active', 0 => 'Inactive'], old('auto_payment_renew', $owner->PAYMENT_AUTO_RENEW), ['class' => 'form-control', 'tabIndex' => ++$tabIndex, 'data-validation-required-message' => 'This field is required']) !!}
-                {!! $errors->first('auto_payment_renew', '<label class="help-block text-danger">:message</label>') !!}
-            </div>
-        </div>
-    </div>
+
+
 
     <div class="col-md-12">
         <div class="form-group">

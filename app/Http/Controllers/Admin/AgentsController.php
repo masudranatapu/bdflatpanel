@@ -72,5 +72,9 @@ class AgentsController extends BaseController
         return view('admin.agents.withdraw', compact('data'));
     }
 
+    public function getArea(Request $request,$id){
+        dd(1);
+    }
+
 
 }
