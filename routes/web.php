@@ -481,8 +481,8 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth']], function () {
     //Agent
     Route::get('agents', ['middleware' => 'acl:agent_view', 'as' => 'admin.agents.list', 'uses' => 'AgentsController@getIndex']);
     Route::get('agents/area/{id}', ['middleware' => 'acl:agent_area_view', 'as' => 'admin.agent.area', 'uses' => 'AgentsController@getArea']);
-    Route::post('agents/area/store', ['middleware' => 'acl:agent_area_store', 'as' => 'admin.agentarea.store', 'uses' => 'AgentsController@agentAreaStore']);
     Route::post('agents/area/update/{id}', ['middleware' => 'acl:agent_area_edit', 'as' => 'admin.agentarea.update', 'uses' => 'AgentsController@agentAreaUpdate']);
+    Route::get('agents/area/delete/{id}', ['middleware' => 'acl:agent_area_delete', 'as' => 'admin.agentarea.delete', 'uses' => 'AgentsController@agentAreaDelete']);
     Route::get('agents/new', ['middleware' => 'acl:agent_new', 'as' => 'admin.agents.create', 'uses' => 'AgentsController@getCreate']);
     Route::post('agents/store', ['middleware' => 'acl:agent_store', 'as' => 'admin.agents.store', 'uses' => 'AgentsController@postStore']);
     Route::get('agents/{id}/edit', ['middleware' => 'acl:agent_edit', 'as' => 'admin.agents.edit', 'uses' => 'AgentsController@getEdit']);
