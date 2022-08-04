@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Admin\AgentRequest;
 use App\Repositories\Admin\Agent\AgentInterface;
+use DB;
 
 class AgentsController extends BaseController
 {
@@ -72,9 +73,48 @@ class AgentsController extends BaseController
         return view('admin.agents.withdraw', compact('data'));
     }
 
-    public function getArea(Request $request,$id){
-        dd(1);
+    public function getArea($id){
+        $ss_areas = DB::table('ss_area')->where('F_PARENT_AREA_NO', NULL)->get();
+        $ss_agent_areas = DB::table('ss_agent_area')->where('F_USER_NO', $id)->first();
+        $users = $id;
+        // return $users;
+        return view('admin.agents.area', compact('ss_areas', 'ss_agent_areas', 'users'));
+    }
+    public function agentAreaStore(Request $request)
+    {
+        //
+        $this->validate($request, [
+            'F_AREA_NO' => 'required',
+        ]);
+        // for F_AREA_NO 
+        if ($request->F_AREA_NO) {
+            $FAREANO = trim(implode(',', $request->F_AREA_NO), ',');
+        } else {
+            $FAREANO = NULL;
+        }
+        DB::table('ss_agent_area')->insert([
+            'F_AREA_NO' => $FAREANO,
+            'F_USER_NO' => $request->user_id,
+        ]);
+        return redirect()->back()->with('flashMessageSuccess','Agent area successfully added');
     }
 
+    public function agentAreaUpdate(Request $request, $id)
+    {
+        //
+        $this->validate($request, [
+            'F_AREA_NO' => 'required',
+        ]);
+        // for F_AREA_NO 
+        if ($request->F_AREA_NO) {
+            $FAREANO = trim(implode(',', $request->F_AREA_NO), ',');
+        } else {
+            $FAREANO = NULL;
+        }
+        DB::table('ss_agent_area')->where('PK_NO', $id)->update([
+            'F_AREA_NO' => $FAREANO,
+        ]);
+        return redirect()->back()->with('flashMessageSuccess','Agent area successfully added');
+    }
 
 }
