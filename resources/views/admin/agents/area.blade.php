@@ -51,6 +51,12 @@
                     <form action="{{ route('admin.agentarea.update', $ss_agent_areas->PK_NO) }}" method="POST">
                         @csrf
                         <div class="row">
+                            <div class="col-md-4"><h3>Agent Name</h3></div>
+                            <div class="col-md-8">
+                                <input type="text" readonly class="form-control" value="{{$usersname}}">
+                            </div>
+                        </div>
+                        <div class="row mt-4">
                             <div class="col-md-4"><h3>Select Agent Area</h3></div>
                             <div class="col-md-8">
                                 <select name="F_AREA_NO[]" class="form-control select2" multiple>
@@ -85,6 +91,12 @@
                         @csrf
                         <input type="hidden" value="{{$users}}" name="user_id">
                         <div class="row">
+                            <div class="col-md-4"><h3>Agent Name</h3></div>
+                            <div class="col-md-8">
+                                <input type="text" readonly class="form-control" value="{{$usersname}}">
+                            </div>
+                        </div>
+                        <div class="row mt-4">
                             <div class="col-md-4"><h3>Select Agent Area</h3></div>
                             <div class="col-md-8">
                                 <select name="F_AREA_NO[]" class="form-control select2" multiple>

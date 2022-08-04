@@ -74,11 +74,14 @@ class AgentsController extends BaseController
     }
 
     public function getArea($id){
-        $ss_areas = DB::table('ss_area')->where('F_PARENT_AREA_NO', NULL)->get();
+        $ss_areas = DB::table('ss_area')->where('F_PARENT_AREA_NO', NULL)->orderBy('AREA_NAME', 'ASC')->get();
+        // return $ss_areas;
         $ss_agent_areas = DB::table('ss_agent_area')->where('F_USER_NO', $id)->first();
         $users = $id;
         // return $users;
-        return view('admin.agents.area', compact('ss_areas', 'ss_agent_areas', 'users'));
+        $usersname = DB::table('web_user')->where('PK_NO', $id)->pluck('NAME', 'PK_NO')->first();
+        // return $usersname;
+        return view('admin.agents.area', compact('ss_areas', 'ss_agent_areas', 'users', 'usersname'));
     }
     public function agentAreaStore(Request $request)
     {
