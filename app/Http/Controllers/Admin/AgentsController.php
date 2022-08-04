@@ -74,14 +74,29 @@ class AgentsController extends BaseController
     }
 
     public function getArea($id){
-        $ss_areas = DB::table('ss_area')->where('F_PARENT_AREA_NO', NULL)->orderBy('AREA_NAME', 'ASC')->get();
+        $areas = DB::table('SS_AREA')->where('F_PARENT_AREA_NO', NULL)->orderBy('AREA_NAME', 'ASC')->get();
         // return $ss_areas;
-        $ss_agent_areas = DB::table('ss_agent_area')->where('F_USER_NO', $id)->first();
-        $users = $id;
+        $agent_areas = DB::table('SS_AGENT_AREA')
+        ->select('SS_AGENT_AREA.F_AREA_NO','SS_AGENT_AREA.F_USER_NO','SS_AREA.AREA_NAME')
+        ->where('SS_AGENT_AREA.F_USER_NO', $id)
+        ->leftJoin('SS_AREA', 'SS_AREA.PK_NO','SS_AGENT_AREA.F_AREA_NO')
+        ->get();
+
+        $area_arr = array();
+        if($agent_areas){
+            foreach ($agent_areas as $key => $value) {
+                if($value){
+                    array_push($area_arr,$value->F_AREA_NO);
+                }
+            }
+        }
+
+
         // return $users;
-        $usersname = DB::table('web_user')->where('PK_NO', $id)->pluck('NAME', 'PK_NO')->first();
+        $user = DB::table('WEB_USER')->where('PK_NO', $id)->first();
+
         // return $usersname;
-        return view('admin.agents.area', compact('ss_areas', 'ss_agent_areas', 'users', 'usersname'));
+        return view('admin.agents.area', compact('areas', 'agent_areas', 'user','area_arr'));
     }
     public function agentAreaStore(Request $request)
     {
@@ -89,13 +104,13 @@ class AgentsController extends BaseController
         $this->validate($request, [
             'F_AREA_NO' => 'required',
         ]);
-        // for F_AREA_NO 
+        // for F_AREA_NO
         if ($request->F_AREA_NO) {
             $FAREANO = trim(implode(',', $request->F_AREA_NO), ',');
         } else {
             $FAREANO = NULL;
         }
-        DB::table('ss_agent_area')->insert([
+        DB::table('SS_AGENT_AREA')->insert([
             'F_AREA_NO' => $FAREANO,
             'F_USER_NO' => $request->user_id,
         ]);
@@ -106,17 +121,26 @@ class AgentsController extends BaseController
     {
         //
         $this->validate($request, [
-            'F_AREA_NO' => 'required',
+            'area_no' => 'required',
+            'user_id' => 'required',
         ]);
-        // for F_AREA_NO 
-        if ($request->F_AREA_NO) {
-            $FAREANO = trim(implode(',', $request->F_AREA_NO), ',');
-        } else {
-            $FAREANO = NULL;
+        // for F_AREA_NO
+
+        if ($request->area_no) {
+            foreach ($request->area_no as $key => $value) {
+               $check = DB::table('SS_AGENT_AREA')->where('F_USER_NO',$request->user_id)->where('F_AREA_NO',$value)->first();
+
+               if($check == null){
+                DB::table('SS_AGENT_AREA')->insert([
+                    'F_AREA_NO' => $value,
+                    'F_USER_NO' => $request->user_id,
+                ]);
+
+               }
+            }
+
         }
-        DB::table('ss_agent_area')->where('PK_NO', $id)->update([
-            'F_AREA_NO' => $FAREANO,
-        ]);
+
         return redirect()->back()->with('flashMessageSuccess','Agent area successfully added');
     }
 

@@ -46,34 +46,41 @@
             </div>
         </div>
         <div class="card-content collapse show">
-            @if($ss_agent_areas)
+
                 <div class="card-body">
-                    <form action="{{ route('admin.agentarea.update', $ss_agent_areas->PK_NO) }}" method="POST">
+
+                    <form action="{{ route('admin.agentarea.update', $user->PK_NO) }}" method="POST">
                         @csrf
+                        <input type="hidden" class="form-control" name="user_id" value="{{$user->PK_NO}}">
                         <div class="row">
                             <div class="col-md-4"><h3>Agent Name</h3></div>
                             <div class="col-md-8">
-                                <input type="text" readonly class="form-control" value="{{$usersname}}">
+                                <input type="text" readonly class="form-control" value="{{$user->NAME}}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                @if(isset($agent_areas) && count($agent_areas) > 0)
+                                @foreach($agent_areas as $k =>  $val)
+                                    <p class="badge">{{ $val->AREA_NAME }}</p>
+
+                                @endforeach
+                                @endif
                             </div>
                         </div>
                         <div class="row mt-4">
                             <div class="col-md-4"><h3>Select Agent Area</h3></div>
                             <div class="col-md-8">
-                                <select name="F_AREA_NO[]" class="form-control select2" multiple>
-                                    @foreach($ss_areas as $ss_area)
-                                        <option
-                                            @if ($ss_agent_areas->F_AREA_NO)
-                                                @php
-                                                    $FAREANO = explode(',', $ss_agent_areas->F_AREA_NO);
-                                                @endphp
-                                                @foreach($FAREANO as $FAREA)
-                                                    @if($ss_area->PK_NO == $FAREA) selected @endif
-                                                @endforeach
+                                <select name="area_no[]" class="form-control select2" multiple>
+                                    @if(isset($areas) && count($areas)>0)
+                                        @foreach($areas as $val)
+                                            @if (!in_array($val->PK_NO, $area_arr)) {
+                                            <option value="{{$val->PK_NO}}">
+                                                {{$val->AREA_NAME}}
+                                            </option>
                                             @endif
-                                            value="{{$ss_area->PK_NO}}">
-                                            {{$ss_area->AREA_NAME}}
-                                        </option>
-                                    @endforeach
+                                        @endforeach
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -85,36 +92,7 @@
                         </div>
                     </form>
                 </div>
-            @else
-                <div class="card-body">
-                    <form action="{{ route('admin.agentarea.store') }}" method="POST">
-                        @csrf
-                        <input type="hidden" value="{{$users}}" name="user_id">
-                        <div class="row">
-                            <div class="col-md-4"><h3>Agent Name</h3></div>
-                            <div class="col-md-8">
-                                <input type="text" readonly class="form-control" value="{{$usersname}}">
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col-md-4"><h3>Select Agent Area</h3></div>
-                            <div class="col-md-8">
-                                <select name="F_AREA_NO[]" class="form-control select2" multiple>
-                                    @foreach($ss_areas as $ss_area)
-                                        <option value="{{$ss_area->PK_NO }}">{{$ss_area->AREA_NAME}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-4"></div>
-                            <div class="col-md-8">
-                                <button type="submit" class="btn btn-info">Submit Area</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            @endif
+
         </div>
     </div>
 @endsection
