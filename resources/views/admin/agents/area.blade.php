@@ -46,52 +46,50 @@
             </div>
         </div>
         <div class="card-content collapse show">
-
-                <div class="card-body">
-
-                    <form action="{{ route('admin.agentarea.update', $user->PK_NO) }}" method="POST">
-                        @csrf
-                        <input type="hidden" class="form-control" name="user_id" value="{{$user->PK_NO}}">
-                        <div class="row">
-                            <div class="col-md-4"><h3>Agent Name</h3></div>
-                            <div class="col-md-8">
-                                <input type="text" readonly class="form-control" value="{{$user->NAME}}">
-                            </div>
+            <div class="card-body">
+                @if(isset($agent_areas) && count($agent_areas) > 0)
+                    <div class="row">
+                        <div class="col-md-4"><h3>Area List</h3></div>
+                        <div class="col-md-8">
+                                @foreach($agent_areas as $k => $val)
+                                    <button class="btn btn-info"> {{ $val->AREA_NAME }} <a class="text-danger ml-2" href="{{ route('admin.agentarea.delete',$val->PK_NO) }}"> X </a></button>
+                                @endforeach
                         </div>
-                        <div class="row">
-                            <div class="col-12">
-                                @if(isset($agent_areas) && count($agent_areas) > 0)
-                                    @foreach($agent_areas as $k =>  $val)
-                                        <p class="badge">{{ $val->AREA_NAME }}</p>
+                    </div>
+                @endif
+                <form action="{{ route('admin.agentarea.update', $user->PK_NO) }}" method="POST">
+                    @csrf
+                    <input type="hidden" class="form-control" name="user_id" value="{{$user->PK_NO}}">
+                    <div class="row mt-2">
+                        <div class="col-md-4"><h3>Agent Name</h3></div>
+                        <div class="col-md-8">
+                            <input type="text" readonly class="form-control" value="{{$user->NAME}}">
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4"><h3>Select Agent Area</h3></div>
+                        <div class="col-md-8">
+                            <select name="area_no[]" class="form-control select2" multiple>
+                                @if(isset($areas) && count($areas)>0)
+                                    @foreach($areas as $val)
+                                        @if (!in_array($val->PK_NO, $area_arr)) {
+                                        <option value="{{$val->PK_NO}}">
+                                            {{$val->AREA_NAME}}
+                                        </option>
+                                        @endif
                                     @endforeach
                                 @endif
-                            </div>
+                            </select>
                         </div>
-                        <div class="row mt-4">
-                            <div class="col-md-4"><h3>Select Agent Area</h3></div>
-                            <div class="col-md-8">
-                                <select name="area_no[]" class="form-control select2" multiple>
-                                    @if(isset($areas) && count($areas)>0)
-                                        @foreach($areas as $val)
-                                            @if (!in_array($val->PK_NO, $area_arr)) {
-                                            <option value="{{$val->PK_NO}}">
-                                                {{$val->AREA_NAME}}
-                                            </option>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-8">
+                            <button type="submit" class="btn btn-info">Update Area</button>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-md-4"></div>
-                            <div class="col-md-8">
-                                <button type="submit" class="btn btn-info">Update Area</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 @endsection
