@@ -61,10 +61,9 @@
                         <div class="row">
                             <div class="col-12">
                                 @if(isset($agent_areas) && count($agent_areas) > 0)
-                                @foreach($agent_areas as $k =>  $val)
-                                    <p class="badge">{{ $val->AREA_NAME }}</p>
-
-                                @endforeach
+                                    @foreach($agent_areas as $k =>  $val)
+                                        <p class="badge">{{ $val->AREA_NAME }}</p>
+                                    @endforeach
                                 @endif
                             </div>
                         </div>
