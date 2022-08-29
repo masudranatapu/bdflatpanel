@@ -130,35 +130,32 @@ class DatatableAbstract implements DatatableInterface
                 }
                 return $status;
             })
-            ->addColumn('user_type', function ($dataSet) {
-                $user_type = '';
+            ->addColumn('name', function ($dataSet) {
+                $name = '';
                 if ($dataSet->USER_TYPE == 2) {
-                    $user_type = 'Owner';
+                    $name = 'Owner';
                 } else if ($dataSet->USER_TYPE == 3) {
-                    $user_type = 'Builder';
+                    $name = 'Builder';
                 } else if ($dataSet->USER_TYPE == 4) {
-                    $user_type = 'Agency';
+                    $name = 'Agency';
                 }
-                return $user_type;
+                return $dataSet->NAME .' ('.$name.')';
             })
             ->addColumn('total_list', function ($dataSet) {
                 $total_list = '';
                 $total_list = '<a href="' . route("admin.product.list", ['user_id' => $dataSet->PK_NO]) . '">'.$dataSet->TOTAL_LISTING.'</a>';
                 return $total_list;
             })
-            ->addColumn('mobile', function ($dataSet) {
-                $mobile = '';
-                if($dataSet->COUNTRY_CODE == 'bd' && $dataSet->IS_VERIFIED == 1){
-                    $mobile = $dataSet->MOBILE_NO.' <span class="text-success" title="Otp verified"><i class="fa fa-check" aria-hidden="true"></i></span>';
-                }elseif($dataSet->COUNTRY_CODE == 'bd' && $dataSet->IS_VERIFIED == 0){
-                    $mobile = $dataSet->MOBILE_NO.' <span class="text-danger" title="Otp not verified"><i class="fa fa-check" aria-hidden="true"></i></span>';
-                }else{
-                    $mobile = $dataSet->MOBILE_NO;
-                }
-                return $mobile;
+            ->addColumn('created_at', function ($dataSet) {
+                $created_at = '';
+                $created_at .= '<div>'.date('d M, y',strtotime($dataSet->CREATED_AT)).'</div>';
+                $created_at .= '<div class="font-10">'.date('h:i A',strtotime($dataSet->CREATED_AT)).'</div>';
+                // $created_at = ;
+
+                return $created_at;
             })
-            ->addColumn('email', function ($dataSet) {
-                $email = '';
+            ->addColumn('contact', function ($dataSet) {
+                $email = $mobile = $contact = '';
                 if($dataSet->COUNTRY_CODE != 'bd' && $dataSet->IS_VERIFIED == 1){
                     $email = $dataSet->EMAIL.' <span class="text-success" title="Otp verified"><i class="fa fa-check" aria-hidden="true"></i></span>';
                 }elseif($dataSet->COUNTRY_CODE != 'bd' && $dataSet->IS_VERIFIED == 0){
@@ -166,7 +163,19 @@ class DatatableAbstract implements DatatableInterface
                 }else{
                     $email = $dataSet->EMAIL;
                 }
-                return $email;
+
+                if($dataSet->COUNTRY_CODE == 'bd' && $dataSet->IS_VERIFIED == 1){
+                    $mobile = $dataSet->MOBILE_NO.' <span class="text-success" title="Otp verified"><i class="fa fa-check" aria-hidden="true"></i></span>';
+                }elseif($dataSet->COUNTRY_CODE == 'bd' && $dataSet->IS_VERIFIED == 0){
+                    $mobile = $dataSet->MOBILE_NO.' <span class="text-danger" title="Otp not verified"><i class="fa fa-check" aria-hidden="true"></i></span>';
+                }else{
+                    $mobile = $dataSet->MOBILE_NO;
+                }
+
+
+                $contact .= '<div>'.$email.'</div>';
+                $contact .= '<div>'.$mobile.'</div>';
+                return $contact;
             })
 
             ->addColumn('action', function ($dataSet) {
@@ -186,7 +195,7 @@ class DatatableAbstract implements DatatableInterface
                 }
                 return $view . $edit . $payment . $cp;
             })
-            ->rawColumns(['action', 'status','total_list', 'mobile','email'])
+            ->rawColumns(['action', 'status','total_list','contact','name','created_at'])
             ->make(true);
     }
 

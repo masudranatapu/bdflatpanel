@@ -73,10 +73,8 @@
                                             <th class="text-center">SL</th>
                                             <th class="text-center">User ID</th>
                                             <th>Create Date</th>
-                                            <th>User Type</th>
                                             <th>Name</th>
-                                            <th>Mobile</th>
-                                            <th>Email</th>
+                                            <th>Contact</th>
                                             <th>Is Feature</th>
                                             <th>Balance</th>
                                             <th>Properties</th>
@@ -165,28 +163,19 @@
                             searchable: true
                         },
                         {
-                            data: 'CREATED_AT',
+                            data: 'created_at',
                             name: 'CREATED_AT',
                             searchable: true
                         },
+
                         {
-                            data: 'user_type',
-                            name: 'user_type',
-                            searchable: true
-                        },
-                        {
-                            data: 'NAME',
+                            data: 'name',
                             name: 'NAME',
                             searchable: true,
                         },
                         {
-                            data: 'mobile',
-                            name: 'MOBILE_NO',
-                            searchable: true,
-                        },
-                        {
-                            data: 'email',
-                            name: 'EMAIL',
+                            data: 'contact',
+                            name: 'contact',
                             searchable: true,
                         },
                         {
