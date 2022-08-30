@@ -122,24 +122,22 @@ class DatatableAbstract implements DatatableInterface
             ->orderBy('PK_NO', 'DESC')
             ->get();
         return Datatables::of($dataSet)
-            ->addColumn('status', function ($dataSet) {
-                if ($dataSet->STATUS == 1) {
-                    $status = '<span class="t-pub">Active</span>';
-                } else {
-                    $status = '<span class="t-del">Inactive</span>';
-                }
-                return $status;
-            })
             ->addColumn('name', function ($dataSet) {
                 $name = '';
-                if ($dataSet->USER_TYPE == 2) {
-                    $name = 'Owner';
-                } else if ($dataSet->USER_TYPE == 3) {
-                    $name = 'Builder';
-                } else if ($dataSet->USER_TYPE == 4) {
-                    $name = 'Agency';
+                if ($dataSet->STATUS == 1) {
+                    $name .= ' <span class="text-success" title="Active"><i class="fa fa-check" aria-hidden="true"></i></span>';
+                } else {
+                    $name .= ' <span class="text-danger" title="In active"><i class="fa fa-check" aria-hidden="true"></i></span>';
                 }
-                return $dataSet->NAME .' ('.$name.')';
+                if ($dataSet->USER_TYPE == 2) {
+                    $name .= ' (Owner) ';
+                } else if ($dataSet->USER_TYPE == 3) {
+                    $name .= ' (Builder)';
+                } else if ($dataSet->USER_TYPE == 4) {
+                    $name .= ' (Agency)';
+                }
+                $name .= $dataSet->NAME;
+                return $name;
             })
             ->addColumn('total_list', function ($dataSet) {
                 $total_list = '';
@@ -151,7 +149,6 @@ class DatatableAbstract implements DatatableInterface
                 $created_at .= '<div>'.date('d M, y',strtotime($dataSet->CREATED_AT)).'</div>';
                 $created_at .= '<div class="font-10">'.date('h:i A',strtotime($dataSet->CREATED_AT)).'</div>';
                 // $created_at = ;
-
                 return $created_at;
             })
             ->addColumn('contact', function ($dataSet) {
@@ -195,7 +192,7 @@ class DatatableAbstract implements DatatableInterface
                 }
                 return $view . $edit . $payment . $cp;
             })
-            ->rawColumns(['action', 'status','total_list','contact','name','created_at'])
+            ->rawColumns(['action','total_list','contact','name','created_at'])
             ->make(true);
     }
 
@@ -216,6 +213,12 @@ class DatatableAbstract implements DatatableInterface
                 ];
                 return $status[$dataSet->STATUS] ?? '';
             })
+            ->addColumn('total_list', function ($dataSet) {
+                $total_list = '';
+                $total_list = '<a href="' . route("admin.product.list", ['user_id' => $dataSet->PK_NO]) . '">'.$dataSet->TOTAL_LISTING.'</a>';
+                return $total_list;
+            })
+
             ->addColumn('action', function ($dataSet) {
                 $roles = userRolePermissionArray();
                 $edit = $payment = $areas = '';
@@ -232,7 +235,7 @@ class DatatableAbstract implements DatatableInterface
 
                 return $edit . $payment . $areas;
             })
-            ->rawColumns(['action', 'status'])
+            ->rawColumns(['action', 'status','total_list'])
             ->make(true);
     }
 
@@ -279,10 +282,17 @@ class DatatableAbstract implements DatatableInterface
                 $user_name = '';
                 $roles = userRolePermissionArray();
                 $user = DB::table('WEB_USER')->where('PK_NO', '=', $dataSet->F_USER_NO)->first('NAME');
+                $status = [
+                    2 => 'Owner',
+                    3 => 'Builder',
+                    4 => 'Agency',
+                    5 => 'Agent'
+                ];
+
                 if (hasAccessAbility('view_owner', $roles)) {
-                    $user_name = '<a href="'.route('admin.owner.view', [$dataSet->F_USER_NO]).'">'.$user->NAME.'</a>';
+                    $user_name .= ' <a href="'.route('admin.owner.view', [$dataSet->F_USER_NO]).'">'.'('.$status[$dataSet->USER_TYPE].') '.$user->NAME.'</a>';
                 }else{
-                    $user_name = '<a href="javascript:void(0)">'.$user->NAME.'</a>';
+                    $user_name .= ' <a href="javascript:void(0)">'.'('.$status[$dataSet->USER_TYPE].') '.$user->NAME.'</a>';
                 }
 
                 return $user_name;
@@ -294,15 +304,7 @@ class DatatableAbstract implements DatatableInterface
                 ];
                 return $status[$dataSet->PAYMENT_STATUS];
             })
-            ->addColumn('user_type', function ($dataSet) {
-                $status = [
-                    2 => 'Owner',
-                    3 => 'Builder',
-                    4 => 'Agency',
-                    5 => 'Agent'
-                ];
-                return $status[$dataSet->USER_TYPE];
-            })
+
             ->addColumn('mobile', function ($dataSet) {
                 $mobile = '';
                 if ($dataSet->MOBILE1) {
@@ -312,6 +314,37 @@ class DatatableAbstract implements DatatableInterface
                     $mobile .= '<br><span>' . $dataSet->MOBILE2 . '</span>';
                 }
                 return $mobile;
+            })
+            ->addColumn('title', function ($dataSet) {
+                $title = '';
+                if ($dataSet->TITLE) {
+                    $title = '<span>' . $dataSet->TITLE . '</span>';
+                }
+                if ($dataSet->PROPERTY_FOR) {
+                    $title .= '<br><span class="text-warning">For : ' . $dataSet->PROPERTY_FOR . '</span>';
+                }
+                return $title;
+            })
+            ->addColumn('area', function ($dataSet) {
+                $area = '';
+                if ($dataSet->CITY_NAME) {
+                    $area .= '<span title="City">' . $dataSet->CITY_NAME . '</span>';
+                }
+                if ($dataSet->AREA_NAME) {
+                    $area .= ',<span title="Area"> ' . $dataSet->AREA_NAME . '</span>';
+                }
+                if ($dataSet->SUBAREA_NAME) {
+                    $area .= '<br><span title="Sub area"> ' . $dataSet->SUBAREA_NAME . '</span>';
+                }
+
+                return $area;
+            })
+            ->addColumn('created_at', function ($dataSet) {
+                $created_at = '';
+                $created_at .= '<div>'.date('d M, y',strtotime($dataSet->CREATED_AT)).'</div>';
+                $created_at .= '<div class="font-10">'.date('h:i A',strtotime($dataSet->CREATED_AT)).'</div>';
+                // $created_at = ;
+                return $created_at;
             })
             ->addColumn('action', function ($dataSet) {
                 $roles = userRolePermissionArray();
@@ -327,7 +360,7 @@ class DatatableAbstract implements DatatableInterface
                 }
                 return $activity . $edit . $view;
             })
-            ->rawColumns(['action', 'status', 'mobile','user_name'])
+            ->rawColumns(['action', 'status', 'mobile','user_name','area', 'title', 'created_at'])
             ->make(true);
     }
 

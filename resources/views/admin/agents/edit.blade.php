@@ -97,7 +97,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group {!! $errors->has('pass') ? 'error' : '' !!}">
-                                        <label>@lang('agent.password')<span class="text-danger">*</span></label>
+                                        <label>@lang('agent.password')</label>
                                         <div class="controls">
                                             {!! Form::password('pass',[ 'class' => 'form-control mb-1', 'placeholder' => 'Enter Password', 'tabIndex' => ++$tabIndex ]) !!}
                                             {!! $errors->first('pass', '<label class="help-block text-danger">:message</label>') !!}

@@ -39,7 +39,7 @@
                             <div class="row  mb-2">
                                 <div class="col-12">
                                     <div class="row mb-1">
-                                        <div class="col-2">
+                                        {{-- <div class="col-2">
                                             <form action="">
                                                 <div style="position: relative">
                                                     <i class="fa fa-search"
@@ -49,8 +49,8 @@
                                                            style="border-radius: 25px !important;padding-left: 28px;">
                                                 </div>
                                             </form>
-                                        </div>
-                                        <div class="col-2 offset-8 text-right" style="padding-top: 10px">
+                                        </div> --}}
+                                        <div class="col-12  text-right" style="padding-top: 10px">
                                             <a href="{{route('admin.agents.create')}}"
                                                class="text-warning font-weight-bold"><i class="fa fa-plus"></i> Add New</a>
                                         </div>
@@ -104,15 +104,15 @@
 
 
         $(document).ready(function () {
-            let value = getCookie('owner_list');
+            var value = getCookie('agents_list');
 
             if (value !== null) {
-                let value = (value - 1) * 25;
+                value = (value - 1) * 25;
                 // table.fnPageChange(value,true);
             } else {
-                let value = 0;
+                value = 0;
             }
-            let table = callDatatable(value);
+            var table = callDatatable(value);
 
         });
 
@@ -181,7 +181,7 @@
                         }
                     },
                     {
-                        data: 'TOTAL_LISTING',
+                        data: 'total_list',
                         name: 'TOTAL_LISTING',
                         className: 'text-center',
                         searchable: true
@@ -222,12 +222,12 @@
     <script>
         $(document).on('click', '.page-link', function () {
             let pageNum = $(this).text();
-            setCookie('owner_list', pageNum);
+            setCookie('agents_list', pageNum);
         });
 
-        function setCookie(owner_list, pageNum) {
+        function setCookie(agents_list, pageNum) {
             let today = new Date();
-            let name = owner_list;
+            let name = agents_list;
             let elementValue = pageNum;
             let expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000); // plus 30 days
 

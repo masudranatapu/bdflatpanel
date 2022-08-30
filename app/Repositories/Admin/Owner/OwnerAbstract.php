@@ -63,6 +63,17 @@ class OwnerAbstract implements OwnerInterface
                     $info->F_USER_NO = $user->PK_NO;
                 }
 
+                if($request->site_url){
+                    $check = DB::table('WEB_USER_INFO')->where('SITE_URL',$request->site_url)->first();
+                    if($check){
+                        $msg = 'This site url already used for another owner!';
+                        return $this->formatResponse($status, $msg, 'admin.owner.list');
+                    }else{
+                        $info->SITE_URL = $request->site_url;
+                        $info->IS_LOCKED_SITE_URL = 1;
+                    }
+                }
+
                 $info->SHOP_OPEN_TIME = $request->open_time;
                 $info->SHOP_CLOSE_TIME = $request->close_time;
                 $info->WORKING_DAYS = json_encode($request->working_days);
@@ -88,11 +99,22 @@ class OwnerAbstract implements OwnerInterface
 
                 $info->META_TITLE = $request->meta_title;
                 $info->META_DESCRIPTION = $request->meta_description;
-                $info->SITE_URL = $request->site_url;
+
                 $info->ABOUT_COMPANY = $request->about_company;
                 $info->SHOP_OPEN_TIME = $request->open_time;
                 $info->SHOP_CLOSE_TIME = $request->close_time;
                 $info->WORKING_DAYS = json_encode($request->working_days);
+
+                if($request->site_url){
+                    $check = DB::table('WEB_USER_INFO')->where('SITE_URL',$request->site_url)->first();
+                    if($check){
+                        $msg = 'This site url already used for another owner!';
+                        return $this->formatResponse($status, $msg, 'admin.owner.list');
+                    }else{
+                        $info->SITE_URL = $request->site_url;
+                        $info->IS_LOCKED_SITE_URL = 1;
+                    }
+                }
 
                 if ($request->hasFile('images')) {
                     $imgMap = ['LOGO', 'BANNER'];

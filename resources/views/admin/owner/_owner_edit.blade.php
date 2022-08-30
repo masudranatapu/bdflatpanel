@@ -52,7 +52,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    {{-- <div class="col-md-6">
         <div class="form-group">
             {!! Form::label('working_days', 'Working Days', ['class' => 'label-title'], false) !!}
             <div class="controls">
@@ -78,7 +78,7 @@
                 {!! $errors->first('close_time', '<label class="help-block text-danger">:message</label>') !!}
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="col-md-6">
         <div class="form-group">
             {!! Form::label('auto_payment_renew', 'Auto Payment Renew *', ['class' => 'label-title'], false) !!}
@@ -95,6 +95,24 @@
                 {!! Form::select('feature', [1 => 'Feature', 0 => 'General'], old('feature', $owner->IS_FEATURE), ['class' => 'form-control', 'tabIndex' => ++$tabIndex, 'data-validation-required-message' => 'This field is required']) !!}
                 {!! $errors->first('feature', '<label class="help-block text-danger">:message</label>') !!}
             </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            {!! Form::label('site_url', 'Site URL *', ['class' => 'label-title'], false) !!}
+            @if( ($owner->info != null ) && ($owner->info->IS_LOCKED_SITE_URL == 1))
+                <div>{{ URL::to('/') }}/owner/{{ $owner->info->SITE_URL }}</div>
+            @else
+            <div class="controls">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon3">{{ URL::to('/') }}/owner/</span>
+                    </div>
+                    {!! Form::text('site_url', old('site_url', $owner->info->SITE_URL ?? ''), ['class' => 'form-control', 'placeholder' => 'Site URL', 'tabIndex' => ++$tabIndex, 'id' > 'basic-url', 'aria-describedby' => 'basic-addon3']) !!}
+                  </div>
+                {!! $errors->first('site_url', '<label class="help-block text-danger">:message</label>') !!}
+            </div>
+            @endif
         </div>
     </div>
     <div class="col-md-6"></div>

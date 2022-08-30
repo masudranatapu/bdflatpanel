@@ -15,13 +15,16 @@
     $roles          = userRolePermissionArray();
     $user_type      = Config::get('static_array.user_type');
     $user_status    = Config::get('static_array.user_status');
+    $owner_active   = request()->get('owner') ?? 'all';
 
 @endphp
 
 @push('custom_css')
     <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/css/core/colors/palette-tooltip.css')}}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
+    <style>
+        .owner_active{background-color: #0808de;}
+    </style>
 @endpush
 
 
@@ -35,20 +38,20 @@
                             <div class="form-group">
                                 <div class="form-check form-check-inline">
                                     <a href="{{ route('admin.owner.list',['owner' => 2]) }}"
-                                       class="btn btn-info btn-sm">Owner</a>
+                                       class="btn btn-info btn-sm {{ $owner_active == 2 ? 'owner_active' : '' }}">Owner</a>
                                 </div>
 
                                 <div class="form-check form-check-inline">
                                     <a href="{{ route('admin.owner.list',['owner' => 3]) }}"
-                                       class="btn btn-info btn-sm">Builder</a>
+                                       class="btn btn-info btn-sm {{ $owner_active == 3 ? 'owner_active' : '' }}">Builder</a>
                                 </div>
 
                                 <div class="form-check form-check-inline">
                                     <a href="{{ route('admin.owner.list',['owner' => 4]) }}"
-                                       class="btn btn-info btn-sm">Agency</a>
+                                       class="btn btn-info btn-sm {{ $owner_active == 4 ? 'owner_active' : '' }}">Agency</a>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <a href="{{ route('admin.owner.list') }}" class="btn btn-info btn-sm">All</a>
+                                    <a href="{{ route('admin.owner.list') }}" class="btn btn-info btn-sm {{ $owner_active == 'all' ? 'owner_active' : '' }}">All</a>
                                 </div>
                             </div>
 
@@ -78,7 +81,6 @@
                                             <th>Is Feature</th>
                                             <th>Balance</th>
                                             <th>Properties</th>
-                                            <th>Status</th>
                                             <th style="width: 17%" class="text-center">Action</th>
                                         </tr>
                                         </thead>
@@ -111,15 +113,15 @@
 
 
         $(document).ready(function () {
-            let value = getCookie('owner_list');
+            var value = getCookie('owner_list');
 
             if (value !== null) {
-                let value = (value - 1) * 25;
+                value = (value - 1) * 25;
                 // table.fnPageChange(value,true);
             } else {
-                let value = 0;
+                value = 0;
             }
-            let table = callDatatable(value);
+            var table = callDatatable(value);
 
         });
 
@@ -202,13 +204,6 @@
                             name: 'total_list',
                             className: 'text-center',
                             searchable: true
-                        },
-                        {
-                            data: 'status',
-                            name: 'status',
-                            searchable: true,
-                            className: 'text-center'
-
                         },
                         {
                             data: 'action',

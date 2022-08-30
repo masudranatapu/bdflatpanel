@@ -95,6 +95,7 @@ class WebInfoAbstract implements WebInfoInterface
             $webInfo->META_KEYWARDS                 = $request->meta_keywords;
             $webInfo->META_DESCRIPTION              = $request->meta_description;
             $webInfo->DEFAULT_CI_PRICE              = $request->default_ci_price;
+            $webInfo->OWNER_SMS_VERIFICATION        = $request->owner_sms_verification ?? 0;
 
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $key => $image) {
@@ -162,7 +163,7 @@ class WebInfoAbstract implements WebInfoInterface
         } catch (\Exception $e) {
             dd($e);
             DB::rollback();
-            return $this->formatResponse(false, $e, 'admin.generalinfo');
+            return $this->formatResponse(false, $e->getMessage(), 'admin.generalinfo');
         }
         DB::commit();
         return $this->formatResponse(true, 'Web info has been updated successfully !', 'admin.generalinfo');

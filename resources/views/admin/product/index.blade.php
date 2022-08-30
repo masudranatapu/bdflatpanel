@@ -118,19 +118,19 @@
                                         <thead>
                                         <tr>
                                             <th class="text-center">SL</th>
-                                            <th class="text-center">User ID</th>
-                                            <th class="text-center">User Type</th>
-                                            <th>User Name</th>
                                             <th class="text-center" title="Property ID">Prty ID</th>
-                                            <th title="Property For">Prty For</th>
-                                            <th>Listing Type</th>
-                                            <th>City</th>
-                                            <th>Area</th>
-                                            <th>Title</th>
-                                            <th>Mobile</th>
                                             <th>Create Date</th>
+                                            {{-- <th class="text-center">User ID</th> --}}
+                                            {{-- <th class="text-center">User Type</th> --}}
+                                            <th>Title</th>
+                                            <th>Listing Type</th>
+                                            {{-- <th title="Property For">Prty For</th> --}}
+                                            {{-- <th>City</th> --}}
+                                            <th>Area</th>
+                                            <th>Mobile</th>
                                             <th>Status</th>
-                                            <th>Pay Status</th>
+                                            <th>Payment</th>
+                                            <th>User Name</th>
                                             <th style="width: 135px;">Action</th>
                                         </tr>
                                         </thead>
@@ -163,15 +163,15 @@
 
 
         $(document).ready(function () {
-            let value = getCookie('property_list');
+            var value = getCookie('property_list');
 
             if (value !== null) {
-                let value = (value - 1) * 25;
+                value = (value - 1) * 25;
                 // table.fnPageChange(value,true);
             } else {
-                let value = 0;
+                 value = 0;
             }
-            let table = callDatatable(value);
+            var table = callDatatable(value);
 
         });
 
@@ -213,30 +213,29 @@
                             }
                         },
 
-                        {
-                            data: 'user_id',
-                            name: 'user_id',
-                            searchable: true
-                        },
-                        {
-                            data: 'user_type',
-                            name: 'user_type',
-                            searchable: true
-                        },
-                        {
-                            data: 'user_name',
-                            name: 'user_name',
-                            searchable: true,
-                            className: 'text-left'
-                        },
+                        // {
+                        //     data: 'user_id',
+                        //     name: 'user_id',
+                        //     searchable: true
+                        // },
+                        // {
+                        //     data: 'user_type',
+                        //     name: 'user_type',
+                        //     searchable: true
+                        // },
                         {
                             data: 'CODE',
                             name: 'CODE',
                             searchable: true
                         },
                         {
-                            data: 'PROPERTY_FOR',
-                            name: 'PROPERTY_FOR',
+                            data: 'created_at',
+                            name: 'CREATED_AT',
+                            searchable: true,
+                        },
+                        {
+                            data: 'title',
+                            name: 'TITLE',
                             searchable: true
                         },
                         {
@@ -246,31 +245,32 @@
                             className: 'text-left'
 
                         },
-                         {
-                            data: 'CITY_NAME',
-                            name: 'CITY_NAME',
-                            searchable: true
-                        },
+
+
+
+                        // {
+                        //     data: 'PROPERTY_FOR',
+                        //     name: 'PROPERTY_FOR',
+                        //     searchable: true
+                        // },
+
+                        //  {
+                        //     data: 'CITY_NAME',
+                        //     name: 'CITY_NAME',
+                        //     searchable: true
+                        // },
                         {
-                            data: 'AREA_NAME',
+                            data: 'area',
                             name: 'AREA_NAME',
                             searchable: true
                         },
-                        {
-                            data: 'TITLE',
-                            name: 'TITLE',
-                            searchable: true
-                        },
+
                         {
                             data: 'mobile',
                             name: 'mobile',
                             searchable: true
                         },
-                        {
-                            data: 'CREATED_AT',
-                            name: 'CREATED_AT',
-                            searchable: true,
-                        },
+
                         {
                             data: 'status',
                             name: 'status',
@@ -283,6 +283,12 @@
                             searchable: true,
                             className: 'text-center'
 
+                        },
+                        {
+                            data: 'user_name',
+                            name: 'user_name',
+                            searchable: true,
+                            className: 'text-left'
                         },
                         {
                             data: 'action',

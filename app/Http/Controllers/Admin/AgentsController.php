@@ -77,7 +77,7 @@ class AgentsController extends BaseController
         $areas = DB::table('SS_AREA')->where('F_PARENT_AREA_NO', NULL)->orderBy('AREA_NAME', 'ASC')->get();
         // return $ss_areas;
         $agent_areas = DB::table('SS_AGENT_AREA')
-        ->select('SS_AGENT_AREA.F_AREA_NO','SS_AGENT_AREA.F_USER_NO','SS_AGENT_AREA.PK_NO', 'SS_AREA.AREA_NAME')
+        ->select('SS_AGENT_AREA.F_AREA_NO','SS_AGENT_AREA.F_USER_NO','SS_AGENT_AREA.PK_NO', 'SS_AREA.AREA_NAME', 'SS_AREA.CITY_NAME')
         ->where('SS_AGENT_AREA.F_USER_NO', $id)
         ->leftJoin('SS_AREA', 'SS_AREA.PK_NO','SS_AGENT_AREA.F_AREA_NO')
         ->get();
@@ -107,11 +107,13 @@ class AgentsController extends BaseController
         if ($request->area_no) {
             foreach ($request->area_no as $key => $value) {
                $check = DB::table('SS_AGENT_AREA')->where('F_USER_NO',$request->user_id)->where('F_AREA_NO',$value)->first();
+               $area = DB::table('SS_AREA')->where('PK_NO',$value)->first();
 
                if($check == null){
                 DB::table('SS_AGENT_AREA')->insert([
                     'F_AREA_NO' => $value,
                     'F_USER_NO' => $request->user_id,
+                    'F_CITY_NO' => $area->F_CITY_NO,
                 ]);
 
                }

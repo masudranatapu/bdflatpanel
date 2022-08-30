@@ -50,10 +50,14 @@ class OwnerController extends BaseController
         return view('admin.owner.edit', compact('data'));
     }
 
-    public function postUpdate(OwnerRequest $request, $id): RedirectResponse
+    public function postUpdate(OwnerRequest $request, $id)
     {
         $this->resp = $this->owner->postUpdate($request, $id);
-        return redirect()->route($this->resp->redirect_to)->with($this->resp->redirect_class, $this->resp->msg);
+        if($this->resp->status){
+            return redirect()->route($this->resp->redirect_to)->with($this->resp->redirect_class, $this->resp->msg);
+        }else{
+            return redirect()->back()->with($this->resp->redirect_class, $this->resp->msg);
+        }
     }
 
     public function getPasswordEdit($id)

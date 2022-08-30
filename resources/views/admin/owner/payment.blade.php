@@ -102,7 +102,7 @@
                                                             <span>{{ number_format($row->AMOUNT, 2) }}</span>
                                                         </td>
                                                         <td>
-                                                            <a href="{{ route('admin.owner.payment.view', ['id' => $row->F_CUSTOMER_NO, 'payment' => $row->PK_NO]) }}" class="btn btn-info btn-sm">View</a>
+                                                            <a href="{{ route('admin.owner.payment.view', ['id' => 1, 'pay_id' => $row->PK_NO]) }}" class="btn btn-info btn-sm">View</a>
                                                         </td>
                                                     </tr>
                                                 @endforeach

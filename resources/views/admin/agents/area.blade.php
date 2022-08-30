@@ -1,12 +1,7 @@
 @extends('admin.layout.master')
 
-@section('title')
-    Agent Area
-@endsection
-
-@section('page-name')
-    Agent Area
-@endsection
+@section('Sales Agent','open')
+@section('agent_list','active')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
@@ -52,7 +47,7 @@
                         <div class="col-md-4"><h3>Area List</h3></div>
                         <div class="col-md-8">
                                 @foreach($agent_areas as $k => $val)
-                                    <button class="btn btn-info"> {{ $val->AREA_NAME }} <a class="text-danger ml-2" href="{{ route('admin.agentarea.delete',$val->PK_NO) }}"> X </a></button>
+                                    <button class="btn btn-info mb-1"> {{ $val->CITY_NAME.', '.$val->AREA_NAME }} <a class="text-danger ml-2" href="{{ route('admin.agentarea.delete',$val->PK_NO) }}"> X </a></button>
                                 @endforeach
                         </div>
                     </div>
@@ -63,18 +58,19 @@
                     <div class="row mt-2">
                         <div class="col-md-4"><h3>Agent Name</h3></div>
                         <div class="col-md-8">
-                            <input type="text" readonly class="form-control" value="{{$user->NAME}}">
+                            <input type="text" readonly class="form-control" value="{{ $user->NAME.' ('.$user->CODE.')' }}">
                         </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-4"><h3>Select Agent Area</h3></div>
                         <div class="col-md-8">
+
                             <select name="area_no[]" class="form-control select2" multiple>
                                 @if(isset($areas) && count($areas)>0)
                                     @foreach($areas as $val)
                                         @if (!in_array($val->PK_NO, $area_arr)) {
                                         <option value="{{$val->PK_NO}}">
-                                            {{$val->AREA_NAME}}
+                                           {{ $val->CITY_NAME.', '.$val->AREA_NAME}}
                                         </option>
                                         @endif
                                     @endforeach
@@ -86,6 +82,11 @@
                         <div class="col-md-4"></div>
                         <div class="col-md-8">
                             <button type="submit" class="btn btn-info">Update Area</button>
+                            <a href="{{ route('admin.agents.list')}}">
+                                <button type="button" class="btn btn-warning mr-1">
+                                    <i class="ft-x"></i> Cancel
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </form>

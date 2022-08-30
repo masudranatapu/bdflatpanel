@@ -37,15 +37,16 @@ class AgentAbstract implements AgentInterface
         DB::beginTransaction();
         try {
             $agent = new Agent();
-            $agent->NAME = $request->name;
-            $agent->MOBILE_NO = $request->phone;
-            $agent->EMAIL = $request->email;
-            $agent->STATUS = $request->status;
-            $agent->IS_FEATURE = $request->is_feature;
-            $agent->PASSWORD = Hash::make($request->pass);
+            $agent->NAME        = $request->name;
+            $agent->MOBILE_NO   = $request->phone;
+            $agent->EMAIL       = $request->email;
+            $agent->STATUS      = $request->status;
+            $agent->USER_TYPE   = 5;
+            $agent->IS_FEATURE  = $request->is_feature;
+            $agent->PASSWORD    = Hash::make($request->pass);
 
             if ($request->hasFile('images')) {
-                $image = $request->file('images')[0];
+                $image      = $request->file('images')[0];
                 $image_name = uniqid() . '.' . $image->getClientOriginalExtension();
                 $image_path = 'uploads/agents/';
                 $image->move(public_path($image_path), $image_name);
@@ -58,7 +59,6 @@ class AgentAbstract implements AgentInterface
             DB::rollback();
             return $this->formatResponse(false, $e->getMessage(), 'admin.agents.list');
         }
-
         DB::commit();
         return $this->formatResponse(true, 'Agent has been created successfully !', 'admin.agents.list');
     }

@@ -494,6 +494,10 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
+                                    <h2>SMS Verification</h2>
+                                    <label><input type="checkbox" value="1" name="owner_sms_verification" {{ $webInfo->OWNER_SMS_VERIFICATION == 1 ? 'checked' : '' }} /> For all property owner registration</label>
+                                </div>
+                                <div class="col-md-12">
                                     <div class="form-actions text-center mt-3">
                                     <a href="{{route('admin.generalinfo')}}" class="btn btn-warning mr-1">
                                     <i class="ft-x"></i>@lang('form.btn_cancle')</a>
